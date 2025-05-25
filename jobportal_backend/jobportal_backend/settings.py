@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'jobs',
     'rest_framework',
     'rest_framework_simplejwt',
+    'custom_admin',
 ]
 
 MIDDLEWARE = [
