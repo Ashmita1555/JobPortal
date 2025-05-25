@@ -38,6 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'users',
+    'applications',
+    'company',
+    'jobs',
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'custom_admin',
 ]
 
 MIDDLEWARE = [
@@ -79,12 +86,16 @@ WSGI_APPLICATION = 'jobportal_backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'jobportal_db',
+        'USER':'postgres',
+        'PASSWORD':'root',
+        'HOST':'localhost',
+        'PORT':'5432',
     }
 }
 
-
+AUTH_USER_MODEL='users.User'
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
@@ -125,3 +136,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
