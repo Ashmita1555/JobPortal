@@ -1,75 +1,57 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import api from '../../services/api';
+import { useNavigate } from 'react-router-dom';
 
 export function MyJobs() {
-  // Mock job data (can be replaced with API data)
-  const [jobs, setJobs] = useState([
-    {
-      id: 1,
-      title: 'Frontend Developer',
-      location: 'Kathmandu',
-      type: 'Full-time',
-      salary: 'Rs. 50,000/month'
-    },
-    {
-      id: 2,
-      title: 'Backend Developer',
-      location: 'Pokhara',
-      type: 'Part-time',
-      salary: 'Rs. 30,000/month'
-    }
-  ]);
+  const [jobs, setJobs] = useState([]);
+  const navigate = useNavigate();
 
-  const handleEdit = (id) => {
-    console.log('Edit job with ID:', id);
-    // navigate to edit form or open modal
+  const fetchJobs = async () => {
+    const res = await api.get('jobs/');
+    setJobs(res.data);
   };
 
-  const handleDelete = (id) => {
-    console.log('Delete job with ID:', id);
-    setJobs(jobs.filter(job => job.id !== id));
+  const deleteJob = async (id) => {
+    await api.delete(`jobs/${id}/`);
+    fetchJobs();
   };
 
-  const handleViewApplications = (id) => {
-    console.log('View applications for job ID:', id);
-    // navigate to application list page
-  };
+  useEffect(() => {
+    fetchJobs();
+  }, []);
 
   return (
-    <div>
-      <h2 className="text-xl font-bold mb-4">Your Job Posts</h2>
-      <div className="grid gap-4">
-        {jobs.map(job => (
-          <div key={job.id} className="bg-white p-4 rounded shadow">
-            <h3 className="text-lg font-semibold">{job.title}</h3>
-            <p>{job.location} | {job.type} | {job.salary}</p>
-            <div className="flex justify-between mt-2">
-              <button
-                className="text-blue-600 hover:underline"
-                onClick={() => handleViewApplications(job.id)}
-              >
-                View Applications
-              </button>
-              <div>
-                <button
-                  className="mr-2 text-yellow-600 hover:underline"
-                  onClick={() => handleEdit(job.id)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="text-red-600 hover:underline"
-                  onClick={() => handleDelete(job.id)}
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
+  <div className="p-4 md:p-8 bg-gray-50 min-h-screen">
+    <h1 className="text-2xl font-bold mb-6 text-center">My Posted Jobs</h1>
+
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {jobs.map((job) => (
+        <div
+          key={job.id}
+          className="bg-white rounded-2xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300"
+        >
+          <h2 className="text-xl font-semibold text-gray-800 mb-2">{job.title}</h2>
+          <p className="text-gray-600 mb-2">{job.description}</p>
+          <p className="text-sm text-gray-500 mb-4">Deadline: {job.deadline}</p>
+
+          <div className="flex justify-between">
+            <button
+              onClick={() => navigate(`/recruiter/edit-job/${job.id}`)}
+              className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1.5 px-4 rounded-lg text-sm"
+            >
+              Edit
+            </button>
+            <button
+              onClick={() => deleteJob(job.id)}
+              className="bg-red-500 hover:bg-red-600 text-white font-medium py-1.5 px-4 rounded-lg text-sm"
+            >
+              Delete
+            </button>
           </div>
-        ))}
-        {jobs.length === 0 && (
-          <p className="text-gray-500 text-center">No jobs posted yet.</p>
-        )}
-      </div>
+        </div>
+      ))}
     </div>
-  );
+  </div>
+);
+
 }

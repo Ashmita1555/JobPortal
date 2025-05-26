@@ -33,7 +33,7 @@ function App() {
         </Route>
         
         {/* job seeker */}
-        <Route path="/seeker" element={<JobSeekerLayout />}>
+        <Route path="/jobseeker" element={<JobSeekerLayout />}>
           <Route path="dashboard" element={<JobSeekerDashboard />} />
           <Route path="search-jobs" element={<SearchJobs />} />
           <Route path="upload-resume" element={<UploadResume />} />

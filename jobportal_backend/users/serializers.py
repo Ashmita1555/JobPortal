@@ -9,17 +9,24 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username', 'email', 'role']
 
+
+
 class RegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, validators=[validate_password])
     class Meta:
         model = User
-        fields = ['username', 'email', 'password', 'role']
+        fields = ['username', 'email', 'password', 'name', 'contact', 'role']
+        extra_kwargs = {'password': {'write_only': True}}
+    def validate_password(self, value):
+        validate_password(value)
+        return value
 
     def create(self, validated_data):
         user = User.objects.create_user(
             username=validated_data['username'],
             email=validated_data['email'],
             password=validated_data['password'],
-            role=validated_data.get('role', 'job_seeker')
+            name=validated_data.get('name', ''),
+            contact=validated_data.get('contact', ''),
+            role=validated_data.get('role', 'job_seeker')  # or 'jobseeker'
         )
         return user

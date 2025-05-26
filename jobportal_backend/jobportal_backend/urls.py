@@ -16,12 +16,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path ,include
+from django.http import JsonResponse
+
+def root_view(request):
+    return JsonResponse({"status": "running", "message": "Welcome to the Job Portal API"})
 
 urlpatterns = [
     #path('admin/', admin.site.urls),
+    path('', root_view),
+    path('api/dashboard/',include('custom_dashboard.urls')),
     path('api/users/', include('users.urls')),
     path('api/jobs/', include('jobs.urls')),
     path('api/applications/', include('applications.urls')),
     path('api/companies/', include('company.urls')),
-    path('api/admin/',include("custom_admin.urls")),
+   
 ]

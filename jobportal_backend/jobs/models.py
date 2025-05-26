@@ -6,7 +6,7 @@ class Job(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     location = models.CharField(max_length=100)
-    company = models.ForeignKey(company,on_delete=models.CASCADE,related_name='jobs', null=True, blank=True)
+    company = models.CharField(max_length=100 ,null=True,blank=True)
 
     posted_by = models.ForeignKey(User,on_delete=models.CASCADE,related_name='jobs',null=True, blank=True)
     posted_at = models.DateTimeField(auto_now_add=True)

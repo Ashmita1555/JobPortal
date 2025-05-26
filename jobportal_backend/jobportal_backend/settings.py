@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'jobs',
     'rest_framework',
     'rest_framework_simplejwt',
-    'custom_admin',
+    'custom_dashboard',
 ]
 
 MIDDLEWARE = [
@@ -141,3 +141,6 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
+
+APPEND_SLASH = True
+
