@@ -13,8 +13,11 @@ import { JobSeekerDashboard } from './pages/jobseeker/JobSeekerDashboard';
 import { SearchJobs } from './pages/jobseeker/SearchJobs';
 import { UploadResume } from './pages/jobseeker/UploadResume';
 import { Applications } from './pages/jobseeker/Applications';
-import ResetPassword from './pages/ResetPassword';
-
+import AdminDashboard from './pages/admin/AdminDashboard';
+import ManageUsers from './pages/admin/ManageUsers';
+import ManageJobs from './pages/admin/ManageJobs';
+import AdminLayout from './pages/admin/AdminLayout';
+import CreateDummyUser from './pages/admin/CreateDummyUser';
 
 function App() {
   return (
@@ -40,6 +43,14 @@ function App() {
           <Route path="search-jobs" element={<SearchJobs />} />
           <Route path="upload-resume" element={<UploadResume />} />
           <Route path="applications" element={<Applications />} />
+        </Route>
+        {/*admin panel */}
+        <Route path="/admin" element={<AdminLayout />}>
+        <Route path="dashboard" element={<AdminDashboard />} />
+        <Route path="users" element={<ManageUsers />} />
+        <Route path="jobs" element={<ManageJobs />} />
+        <Route path="createuser" element={<CreateDummyUser />} />
+
         </Route>
       </Routes>
     </Router>
