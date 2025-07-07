@@ -13,6 +13,7 @@ import { JobSeekerDashboard } from './pages/jobseeker/JobSeekerDashboard';
 import { SearchJobs } from './pages/jobseeker/SearchJobs';
 import { UploadResume } from './pages/jobseeker/UploadResume';
 import { Applications } from './pages/jobseeker/Applications';
+import ResetPassword from './pages/ResetPassword';
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/reset-password/:uid/:token" element={<ResetPassword />} />
 
         {/* Recruiter Routes */}
         <Route path="/recruiter" element={<SidebarLayout />}>
