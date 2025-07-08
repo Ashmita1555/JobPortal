@@ -15,9 +15,6 @@ export default function Navbar() {
             <Link to="/jobs" className="text-gray-700 hover:text-blue-600 transition">
               Jobs
             </Link>
-            <Link to="/companies" className="text-gray-700 hover:text-blue-600 transition">
-              Companies
-            </Link>
             <Link to="/login" className="text-gray-700 hover:text-blue-600 transition">
               Login
             </Link>

@@ -1,81 +1,44 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 
-export default function CreateDummyUser() {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    jobTitle: "",
-    jobDescription: "",
-    expiryDays: 7,
-  });
-  const [success, setSuccess] = useState("");
+export default function CreateTempJob() {
+  const [form, setForm] = useState({ title: "", description: "", duration_days: 3 });
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:8000/api/admin/create_dummy_user/", form)
-      .then((res) => {
-        setSuccess(`Dummy user created with ID ${res.data.id}`);
-      })
-      .catch((err) => {
-        console.error(err);
-        setSuccess("Error creating dummy user.");
-      });
+    await axios.post("http://localhost:8000/api/admin/temp-job/", form, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    });
+    alert("Temporary job posted!");
   };
 
   return (
-    <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">Create Dummy User + Post Job</h2>
-      {success && <p className="text-green-600">{success}</p>}
-
+    <div>
+      <h2 className="text-2xl font-bold mb-4">Post a Job as Dummy User</h2>
       <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
         <input
-          className="border p-2 w-full"
-          name="name"
-          placeholder="Name"
-          onChange={handleChange}
-          required
-        />
-        <input
-          className="border p-2 w-full"
-          name="email"
-          placeholder="Email"
-          onChange={handleChange}
-          required
-        />
-        <input
-          className="border p-2 w-full"
-          name="jobTitle"
+          type="text"
           placeholder="Job Title"
-          onChange={handleChange}
+          value={form.title}
+          onChange={(e) => setForm({ ...form, title: e.target.value })}
+          className="w-full p-2 border rounded"
           required
         />
         <textarea
-          className="border p-2 w-full"
-          name="jobDescription"
-          placeholder="Job Description"
-          onChange={handleChange}
+          placeholder="Description"
+          value={form.description}
+          onChange={(e) => setForm({ ...form, description: e.target.value })}
+          className="w-full p-2 border rounded"
           required
-        ></textarea>
-        <input
-          className="border p-2 w-full"
-          type="number"
-          name="expiryDays"
-          placeholder="Active Days"
-          value={form.expiryDays}
-          onChange={handleChange}
         />
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded"
-        >
-          Create Dummy User + Post Job
-        </button>
+        <input
+          type="number"
+          placeholder="Duration (days)"
+          value={form.duration_days}
+          onChange={(e) => setForm({ ...form, duration_days: e.target.value })}
+          className="w-full p-2 border rounded"
+        />
+        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Post Job</button>
       </form>
     </div>
   );

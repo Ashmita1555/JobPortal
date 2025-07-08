@@ -8,6 +8,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Jobs from './pages/Jobs';
 import JobSeekerLayout from './pages/jobseeker/JobSeekerLayout';
 import { JobSeekerDashboard } from './pages/jobseeker/JobSeekerDashboard';
 import { SearchJobs } from './pages/jobseeker/SearchJobs';
@@ -18,6 +19,7 @@ import ManageUsers from './pages/admin/ManageUsers';
 import ManageJobs from './pages/admin/ManageJobs';
 import AdminLayout from './pages/admin/AdminLayout';
 import CreateDummyUser from './pages/admin/CreateDummyUser';
+import ResetPassword from './pages/ResetPassword';
 
 function App() {
   return (
@@ -27,6 +29,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/jobs" element={<Jobs />} />
         <Route path="/reset-password/:uid/:token" element={<ResetPassword />} />
 
         {/* Recruiter Routes */}
@@ -49,7 +52,7 @@ function App() {
         <Route path="dashboard" element={<AdminDashboard />} />
         <Route path="users" element={<ManageUsers />} />
         <Route path="jobs" element={<ManageJobs />} />
-        <Route path="createuser" element={<CreateDummyUser />} />
+        <Route path="post-dummy" element={<CreateDummyUser />} />
 
         </Route>
       </Routes>

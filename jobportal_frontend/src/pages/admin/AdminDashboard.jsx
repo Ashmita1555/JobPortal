@@ -1,14 +1,35 @@
-import React from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function AdminDashboard() {
+  const [stats, setStats] = useState(null);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      const res = await axios.get("http://localhost:8000/api/admin/dashboard/", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      setStats(res.data);
+    };
+
+    fetchStats();
+  }, []);
+
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
-      <ul>
-        <li><a href="/admin/users" className="text-blue-600">Manage Users</a></li>
-        <li><a href="/admin/jobs" className="text-blue-600">Manage Jobs</a></li>
-        <li><a href="/admin/dummyuser" className="text-blue-600">Create Dummy USer</a></li>
-      </ul>
+    <div>
+      <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
+      {stats ? (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="bg-white p-4 rounded shadow">Users: {stats.total_users}</div>
+          <div className="bg-white p-4 rounded shadow">Jobs: {stats.total_jobs}</div>
+          <div className="bg-white p-4 rounded shadow">Applications: {stats.total_applications}</div>
+          <div className="bg-white p-4 rounded shadow">Companies: {stats.total_companies}</div>
+        </div>
+      ) : (
+        <p>Loading stats...</p>
+      )}
     </div>
   );
 }

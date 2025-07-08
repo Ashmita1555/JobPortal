@@ -17,6 +17,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/recruiter" element={<RecruiterDashboard />} />
+        <Route path="/reset-password/:uid/:token" element={<ResetPassword />} />
+
+        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </Router>
   );
