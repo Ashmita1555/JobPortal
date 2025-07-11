@@ -89,7 +89,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'jobportal_db',
         'USER':'postgres',
-        'PASSWORD':'admin',
+        'PASSWORD':'root',
         'HOST':'localhost',
         'PORT':'5432',
     }
@@ -140,7 +140,11 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
 }
+
 
 APPEND_SLASH = True
 

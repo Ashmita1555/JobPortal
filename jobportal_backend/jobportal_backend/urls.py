@@ -27,12 +27,12 @@ def root_view(request):
 urlpatterns = [
     #path('admin/', admin.site.urls),
     path('', root_view),
-     path('api/', include('custom_dashboard.urls')),
+     path('api/admin/', include('custom_dashboard.urls')),
     path('api/users/', include('users.urls')),
     path('api/jobs/', include('jobs.urls')),
     path('api/applications/', include('applications.urls')),
     path('api/companies/', include('company.urls')),
-   path('api/admin-panel/', include('custom_dashboard.urls')),
+   
 
    path('api/token/',TokenObtainPairView.as_view(),name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

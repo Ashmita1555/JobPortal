@@ -1,29 +1,40 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../services/api"; 
 
 export default function ManageJobs() {
   const [jobs, setJobs] = useState([]);
 
+  const fetchJobs = async () => {
+    try {
+      const res = await api.get("admin/jobs/");
+      setJobs(res.data);
+    } catch (err) {
+      console.error("Failed to fetch jobs:", err.response?.data || err.message);
+    }
+  };
+
   useEffect(() => {
-    axios.get("http://localhost:8000/api/admin/jobs/", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    }).then(res => setJobs(res.data));
+    fetchJobs();
   }, []);
 
   const approveJob = async (id) => {
-    await axios.post(`http://localhost:8000/api/admin/jobs/approve/${id}/`, {}, {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-    });
-    alert("Job approved!");
+    try {
+      await api.post(`admin/jobs/approve/${id}/`);
+      alert("Job approved!");
+      fetchJobs(); // Refresh list
+    } catch (err) {
+      console.error("Approve failed:", err.response?.data || err.message);
+    }
   };
 
   const deleteJob = async (id) => {
-    await axios.delete(`http://localhost:8000/api/admin/jobs/delete/${id}/`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-    });
-    alert("Job deleted!");
+    try {
+      await api.delete(`admin/jobs/delete/${id}/`);
+      alert("Job deleted!");
+      fetchJobs(); // Refresh list
+    } catch (err) {
+      console.error("Delete failed:", err.response?.data || err.message);
+    }
   };
 
   return (
@@ -38,15 +49,25 @@ export default function ManageJobs() {
           </tr>
         </thead>
         <tbody>
-          {jobs.map(job => (
+          {jobs.map((job) => (
             <tr key={job.id}>
               <td className="p-2 border">{job.title}</td>
-              <td className="p-2 border">{job.posted_by_username || 'Unknown'}</td>
+              <td className="p-2 border">{job.posted_by_username || "Unknown"}</td>
               <td className="p-2 border">
                 {!job.is_approved && (
-                  <button onClick={() => approveJob(job.id)} className="text-green-600 mr-2">Approve</button>
+                  <button
+                    onClick={() => approveJob(job.id)}
+                    className="text-green-600 mr-2"
+                  >
+                    Approve
+                  </button>
                 )}
-                <button onClick={() => deleteJob(job.id)} className="text-red-600">Delete</button>
+                <button
+                  onClick={() => deleteJob(job.id)}
+                  className="text-red-600"
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           ))}

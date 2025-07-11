@@ -8,7 +8,8 @@ export default function AdminDashboard() {
     const fetchStats = async () => {
       const res = await axios.get("http://localhost:8000/api/admin/dashboard/", {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+
         },
       });
       setStats(res.data);
